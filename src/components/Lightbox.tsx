@@ -1,14 +1,7 @@
-interface LightboxProps {
-  isLightboxOpen: boolean;
-  mainImage: string;
-}
-
-const Lightbox = ({ isLightboxOpen, mainImage }: LightboxProps) => {
+const Lightbox = () => {
   return (
     <div
-      className={`bg-black absolute inset-0 z-30 pointer-events-none transition-opacity duration-200 ${
-        isLightboxOpen ? "opacity-60" : "opacity-0"
-      }`}
+      className={`hidden lg:block bg-black absolute inset-0 z-30 pointer-events-none transition-opacity duration-200 opacity-80`}
     ></div>
   );
 };

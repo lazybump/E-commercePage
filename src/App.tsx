@@ -1,102 +1,43 @@
 import { useState } from "react";
-import { products } from "./data";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import minus from "./images/icon-minus.svg";
 import plus from "./images/icon-plus.svg";
+import close from "./images/icon-close.svg";
 import Header from "./components/Header";
 import Lightbox from "./components/Lightbox";
-
-interface Data {
-  id: number;
-  mainImage: string;
-  thumbnail: string;
-}
+import Gallery from "./components/Gallery";
 
 function App() {
-  const [selectedImage, setSelectedImage] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(0);
-  // const [slideIndex, setSlideIndex] = useState(1);
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
-
-  const { mainImage } = products[selectedImage];
-
-  const goToPreviousSlide = () => {
-    setCurrentSlide((prevSlide) => prevSlide - 1);
-  };
-
-  const goToNextSlide = () => {
-    setCurrentSlide((prevSlide) => prevSlide + 1);
-  };
-
-  const isPreviousDisabled = currentSlide === 0;
-  const isNextDisabled = currentSlide === products.length - 1;
 
   return (
     <>
-      <Lightbox isLightboxOpen={isLightboxOpen} mainImage={mainImage} />
+      {isLightboxOpen && <Lightbox />}
+      <div
+        className={`absolute z-40 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 ${
+          isLightboxOpen ? "block" : "hidden"
+        }`}
+      >
+        <div className="flex justify-end">
+          <button className="mb-6" onClick={() => setIsLightboxOpen(false)}>
+            <img
+              src={close}
+              alt="Lightbox close button"
+              className="text-white h-6"
+            />
+          </button>
+        </div>
+        <Gallery
+          isLightboxOpen={isLightboxOpen}
+          setIsLightboxOpen={setIsLightboxOpen}
+        />
+      </div>
+
       <Header />
       <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:place-items-center lg:py-20 gap-20">
         <article>
-          <div className="relative">
-            <img
-              src={mainImage}
-              alt=""
-              className="hidden lg:block lg:rounded-2xl duration-500 max-w-[500px]"
-              onClick={() => setIsLightboxOpen(true)}
-            />
-            <div
-              style={{
-                backgroundImage: `url(${products[currentSlide].mainImage})`,
-              }}
-              className="min-h-[600px] bg-center bg-cover lg:rounded-2xl duration-500 lg:hidden"
-            ></div>
-            <ul className="lg:hidden">
-              <li>
-                <button
-                  onClick={goToPreviousSlide}
-                  disabled={isPreviousDisabled}
-                  className={`bg-white rounded-full p-5 shadow absolute top-1/2 -translate-y-1/2 left-4 ${
-                    isPreviousDisabled ? "opacity-60" : ""
-                  }`}
-                >
-                  <FaChevronLeft />
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={goToNextSlide}
-                  disabled={isNextDisabled}
-                  className={`bg-white rounded-full p-5 shadow absolute top-1/2 -translate-y-1/2 right-4 ${
-                    isNextDisabled ? "opacity-60" : ""
-                  }`}
-                >
-                  <FaChevronRight />
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <ul className="hidden lg:flex items-center justify-between gap-5 mt-5">
-            {products.map((product, index) => (
-              <li
-                key={product.id}
-                onClick={() => setSelectedImage(index)}
-                className={`border-2 rounded-2xl overflow-hidden cursor-pointer ${
-                  index === selectedImage
-                    ? "border-2 border-orange-400 opacity-80"
-                    : ""
-                }`}
-              >
-                <img
-                  src={product.thumbnail}
-                  alt=""
-                  className="w-24 rounded-xl"
-                />
-              </li>
-            ))}
-          </ul>
+          <Gallery setIsLightboxOpen={setIsLightboxOpen} />
         </article>
 
         <article className="px-8 pb-10">
