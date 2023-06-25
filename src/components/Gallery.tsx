@@ -1,23 +1,16 @@
 import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { data } from "../data";
-
-interface Data {
-  id: number;
-  mainImage: string;
-  thumbnail: string;
-}
+import { ProductsType } from "../App";
 
 interface GalleryProps {
-  isLightboxOpen?: boolean;
   setIsLightboxOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  products: ProductsType[];
 }
 
-const Gallery = ({ isLightboxOpen, setIsLightboxOpen }: GalleryProps) => {
+const Gallery = ({ setIsLightboxOpen, products }: GalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-  const products: Data[] = data;
   const { mainImage } = products[selectedImage];
 
   const isPreviousDisabled = currentSlide === 0;
@@ -29,9 +22,7 @@ const Gallery = ({ isLightboxOpen, setIsLightboxOpen }: GalleryProps) => {
         <img
           src={mainImage}
           alt=""
-          className={`hidden lg:block cursor-pointer rounded-2xl duration-500 ${
-            isLightboxOpen ? "max-w-[600px]" : "max-w-[500px]"
-          }`}
+          className="hidden lg:block cursor-pointer rounded-2xl max-w-[500px]"
           onClick={() => setIsLightboxOpen(true)}
         />
         <div

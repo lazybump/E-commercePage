@@ -2,10 +2,16 @@ import { useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import minus from "./images/icon-minus.svg";
 import plus from "./images/icon-plus.svg";
-import close from "./images/icon-close.svg";
 import Header from "./components/Header";
 import Lightbox from "./components/Lightbox";
 import Gallery from "./components/Gallery";
+import { data } from "./data";
+
+export interface ProductsType {
+  id: number;
+  mainImage: string;
+  thumbnail: string;
+}
 
 function App() {
   const [quantity, setQuantity] = useState<number>(0);
@@ -13,31 +19,18 @@ function App() {
 
   return (
     <>
-      {isLightboxOpen && <Lightbox />}
-      <div
-        className={`absolute z-40 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 ${
-          isLightboxOpen ? "block" : "hidden"
-        }`}
-      >
-        <div className="flex justify-end">
-          <button className="mb-6" onClick={() => setIsLightboxOpen(false)}>
-            <img
-              src={close}
-              alt="Lightbox close button"
-              className="text-white h-6"
-            />
-          </button>
-        </div>
-        <Gallery
+      {isLightboxOpen && (
+        <Lightbox
           isLightboxOpen={isLightboxOpen}
           setIsLightboxOpen={setIsLightboxOpen}
+          products={data}
         />
-      </div>
+      )}
 
       <Header />
       <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 lg:place-items-center lg:py-20 gap-20">
         <article>
-          <Gallery setIsLightboxOpen={setIsLightboxOpen} />
+          <Gallery setIsLightboxOpen={setIsLightboxOpen} products={data} />
         </article>
 
         <article className="px-8 pb-10">
