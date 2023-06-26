@@ -1,16 +1,45 @@
-import thumbnail from "../images/image-product-1-thumbnail.jpg";
 import bin from "../images/icon-delete.svg";
 import { CartItem } from "../App";
+import { useEffect, useRef } from "react";
 
 interface CartProps {
   cart: CartItem[];
   quantity: number;
   removeFromCart: (param: React.MouseEvent<HTMLButtonElement>) => void;
+  setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  cartButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const Cart = ({ cart, quantity, removeFromCart }: CartProps) => {
+const Cart = ({
+  cart,
+  quantity,
+  removeFromCart,
+  setIsCartOpen,
+  cartButtonRef,
+}: CartProps) => {
+  const cartRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        !cartRef.current?.contains(event.target as Node) &&
+        !cartButtonRef.current?.contains(event.target as Node)
+      ) {
+        setIsCartOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <li className="bg-white rounded-2xl shadow-lg absolute top-20 inset-x-4 z-10 lg:left-auto lg:w-96">
+    <li
+      className="bg-white rounded-2xl shadow-lg absolute top-20 inset-x-4 z-10 lg:left-auto lg:w-96"
+      ref={cartRef}
+    >
       <section className="border-b border-slate-200 p-6">
         <h2 className="font-bold">Cart</h2>
       </section>

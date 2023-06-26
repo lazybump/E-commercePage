@@ -3,7 +3,7 @@ import avatar from "../images/image-avatar.png";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import menu from "../images/icon-menu.svg";
 import Cart from "./Cart";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CartItem } from "../App";
 
 interface HeaderProps {
@@ -20,6 +20,7 @@ const Header = ({
   removeFromCart,
 }: HeaderProps) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <header className="flex items-center justify-between p-5 lg:p-8 border-b border-slate-400 max-w-7xl mx-auto relative">
       <div className="flex items-center justify-start gap-8">
@@ -48,10 +49,19 @@ const Header = ({
         <ul className="flex items-center justify-start gap-4 lg:gap-8">
           <li className="flex">
             <button
+              ref={cartButtonRef}
               onClick={() => setIsCartOpen((prev) => !prev)}
-              className="text-2xl text-slate-600 transition-transform duration-200 active:scale-110 ease-in-out hover:text-black"
+              className="relative text-2xl text-slate-600 transition-transform duration-200 active:scale-110 ease-in-out hover:text-black"
             >
               <AiOutlineShoppingCart />
+
+              <div
+                className={`bg-orange-400 w-5 flex justify-center text-white font-semibold rounded-2xl text-xs absolute top-0 right-0 -translate-y-2 py-[1px] translate-x-2 ${
+                  cart.length ? "block" : "hidden"
+                }`}
+              >
+                {quantity}
+              </div>
             </button>
           </li>
           <li>
@@ -66,6 +76,8 @@ const Header = ({
               cart={cart}
               quantity={quantity}
               removeFromCart={removeFromCart}
+              setIsCartOpen={setIsCartOpen}
+              cartButtonRef={cartButtonRef}
             />
           )}
         </ul>
