@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import closeButton from "../images/icon-close.svg";
 
 interface MenuProps {
@@ -8,8 +9,22 @@ interface MenuProps {
 const Menu = ({ isMenuOpen, setIsMenuOpen }: MenuProps) => {
   const pages = ["Collections", "Men", "Women", "About", "Contact"];
 
+  const menuRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
   return (
     <aside
+      ref={menuRef}
       className={`bg-white shadow-2xl text-custom-black fixed inset-y-0 w-3/5 p-8 space-y-8 z-50 transition-all duration-500 ${
         isMenuOpen ? "" : "-translate-x-full"
       }`}
