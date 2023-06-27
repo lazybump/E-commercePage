@@ -53,11 +53,7 @@ function App() {
   return (
     <>
       {isLightboxOpen && (
-        <Lightbox
-          isLightboxOpen={isLightboxOpen}
-          setIsLightboxOpen={setIsLightboxOpen}
-          products={data}
-        />
+        <Lightbox setIsLightboxOpen={setIsLightboxOpen} products={data} />
       )}
 
       {/* This is the overlay for the mobile menu */}

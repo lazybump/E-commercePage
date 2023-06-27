@@ -1,22 +1,31 @@
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ProductsType } from "../App";
 import { RiCloseFill } from "react-icons/ri";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface LightboxProps {
-  isLightboxOpen: boolean;
   setIsLightboxOpen: React.Dispatch<React.SetStateAction<boolean>>;
   products: ProductsType[];
 }
 
-const Lightbox = ({
-  isLightboxOpen,
-  setIsLightboxOpen,
-  products,
-}: LightboxProps) => {
+const Lightbox = ({ setIsLightboxOpen, products }: LightboxProps) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const isPreviousDisabled = currentSlide === 0;
   const isNextDisabled = currentSlide === products.length - 1;
+
+  // const lightboxRef = useRef<HTMLDivElement>(null);
+  // const closeBtnRef = useRef<HTMLButtonElement>(null);
+
+  // useEffect(() => {
+  //   const handleOutsideClick = (event: MouseEvent) => {
+  //     event.stopPropagation();
+  //     if (!lightboxRef.current?.contains(event.target as Node)) {
+  //       setIsLightboxOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleOutsideClick);
+  //   return () => document.removeEventListener("mousedown", handleOutsideClick);
+  // }, []);
 
   const { mainImage } = products[currentSlide];
 
@@ -28,15 +37,11 @@ const Lightbox = ({
       ></div>
 
       <div
-        className={`absolute z-40 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 ${
-          isLightboxOpen ? "block" : "hidden"
-        }`}
+        // ref={lightboxRef}
+        className="absolute z-40 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
       >
-        <div className="flex justify-end">
-          <button
-            className="mb-6 group"
-            onClick={() => setIsLightboxOpen(false)}
-          >
+        <div className="absolute z-10 bottom-full mb-3 right-0">
+          <button className="group" onClick={() => setIsLightboxOpen(false)}>
             <RiCloseFill className="text-3xl text-white stroke-1 group-hover:text-orange-500" />
           </button>
         </div>

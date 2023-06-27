@@ -33,8 +33,10 @@ const Menu = ({ isMenuOpen, setIsMenuOpen }: MenuProps) => {
         <img src={closeButton} alt="Close menu button" />
       </button>
       <ul className="space-y-3">
-        {pages.map((page) => (
-          <li className="font-bold">{page}</li>
+        {pages.map((page, index) => (
+          <li key={index} className="font-bold">
+            {page}
+          </li>
         ))}
       </ul>
     </aside>
