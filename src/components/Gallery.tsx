@@ -62,13 +62,20 @@ const Gallery = ({ setIsLightboxOpen, products }: GalleryProps) => {
           <li
             key={product.id}
             onClick={() => setSelectedImage(index)}
-            className={`border-2 rounded-2xl overflow-hidden cursor-pointer ${
+            className={`relative group border-2 rounded-2xl overflow-hidden cursor-pointer ${
               index === selectedImage
                 ? "border-2 border-orange-400 opacity-80"
                 : ""
             }`}
           >
             <img src={product.thumbnail} alt="" className="w-24 rounded-xl" />
+            <div
+              className={`bg-white absolute inset-0 transition-opacity duration-100 ${
+                index === selectedImage
+                  ? "opacity-60"
+                  : "opacity-0 group-hover:opacity-40"
+              }`}
+            ></div>
           </li>
         ))}
       </ul>

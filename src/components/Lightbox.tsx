@@ -93,7 +93,7 @@ const Lightbox = ({
                   className={`bg-white absolute inset-0 transition-opacity duration-100 ${
                     index === currentSlide
                       ? "opacity-60"
-                      : "opacity-0 group-hover:opacity-30"
+                      : "opacity-0 group-hover:opacity-40"
                   }`}
                 ></div>
               </li>
