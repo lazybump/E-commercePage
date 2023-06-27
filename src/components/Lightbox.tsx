@@ -1,6 +1,6 @@
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ProductsType } from "../App";
-import close from "../images/icon-close.svg";
+import { RiCloseFill } from "react-icons/ri";
 import { useState } from "react";
 
 interface LightboxProps {
@@ -33,8 +33,11 @@ const Lightbox = ({
         }`}
       >
         <div className="flex justify-end">
-          <button className="mb-6" onClick={() => setIsLightboxOpen(false)}>
-            <img src={close} alt="Lightbox close button" className="h-6" />
+          <button
+            className="mb-6 group"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <RiCloseFill className="text-3xl text-white stroke-1 group-hover:text-orange-500" />
           </button>
         </div>
 
@@ -52,10 +55,10 @@ const Lightbox = ({
                   onClick={() => setCurrentSlide((prevSlide) => prevSlide - 1)}
                   disabled={isPreviousDisabled}
                   className={`bg-white rounded-full p-5 shadow absolute top-1/2 -translate-y-1/2 left-4 ${
-                    isPreviousDisabled ? "opacity-60" : ""
+                    isPreviousDisabled ? "opacity-60" : "group"
                   }`}
                 >
-                  <FaChevronLeft />
+                  <FaChevronLeft className="group-hover:text-orange-500" />
                 </button>
               </li>
               <li>
@@ -63,10 +66,10 @@ const Lightbox = ({
                   onClick={() => setCurrentSlide((prevSlide) => prevSlide + 1)}
                   disabled={isNextDisabled}
                   className={`bg-white rounded-full p-5 shadow absolute top-1/2 -translate-y-1/2 right-4 ${
-                    isNextDisabled ? "opacity-60" : ""
+                    isNextDisabled ? "opacity-60" : "group"
                   }`}
                 >
-                  <FaChevronRight />
+                  <FaChevronRight className="group-hover:text-orange-500" />
                 </button>
               </li>
             </ul>
@@ -77,10 +80,8 @@ const Lightbox = ({
               <li
                 key={product.id}
                 onClick={() => setCurrentSlide(index)}
-                className={`border-2 rounded-2xl overflow-hidden cursor-pointer ${
-                  index === currentSlide
-                    ? "border-2 border-orange-400 opacity-80"
-                    : ""
+                className={`relative rounded-2xl overflow-hidden cursor-pointer group ${
+                  index === currentSlide ? "border-2 border-orange-400" : ""
                 }`}
               >
                 <img
@@ -88,6 +89,13 @@ const Lightbox = ({
                   alt=""
                   className="w-24 rounded-xl"
                 />
+                <div
+                  className={`bg-white absolute inset-0 transition-opacity duration-100 ${
+                    index === currentSlide
+                      ? "opacity-60"
+                      : "opacity-0 group-hover:opacity-30"
+                  }`}
+                ></div>
               </li>
             ))}
           </ul>
