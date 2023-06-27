@@ -27,16 +27,6 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // const addItemToCart = () => {
-  //   setCart([
-  //     {
-  //       name: "Fall Limited Edition Sneakers",
-  //       price: 125,
-  //       thumbnail: productThumbnail,
-  //     },
-  //   ]);
-  // };
-
   const addToCart = (event: React.MouseEvent<HTMLElement>) => {
     const { name } = event.target as HTMLButtonElement;
     if (name === "add-to-cart-btn") {
